@@ -246,6 +246,9 @@ export const ethereum = {
 
   getNftOwner: (params: ChainFamilies["ethereum"]["get-nft-owner"]["params"], network?: string) =>
     chainRequest("ethereum", "get-nft-owner", params, network),
+
+  getNftMetadata: (params: ChainFamilies["ethereum"]["get-nft-metadata"]["params"], network?: string) =>
+    chainRequest("ethereum", "get-nft-metadata", params, network),
 };
 
 /** Typed Solana operations. */

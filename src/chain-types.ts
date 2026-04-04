@@ -208,6 +208,12 @@ export interface EvmGetNftOwnerParams {
   rpcUrl?: string;
 }
 
+export interface EvmGetNftMetadataParams {
+  token: string;
+  tokenId: string;
+  rpcUrl?: string;
+}
+
 // ---------------------------------------------------------------------------
 // Solana — Compute Budget
 // ---------------------------------------------------------------------------
@@ -392,6 +398,10 @@ export interface EvmActions {
   };
   "get-nft-owner": {
     params: EvmGetNftOwnerParams;
+    result: Record<string, string>;
+  };
+  "get-nft-metadata": {
+    params: EvmGetNftMetadataParams;
     result: Record<string, string>;
   };
 }
