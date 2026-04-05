@@ -31,7 +31,7 @@
  */
 
 import { W3ActionError } from "./error.js";
-import type { ChainFamilies } from "./chain-types.js";
+import type { SyscallFamilies } from "./chain-types.js";
 
 // ---------------------------------------------------------------------------
 // Transport
@@ -199,85 +199,85 @@ async function crypto(
 
 /** Typed Ethereum operations. */
 export const ethereum = {
-  getBalance: (params: ChainFamilies["ethereum"]["get-balance"]["params"], network?: string) =>
+  getBalance: (params: SyscallFamilies["ethereum"]["get-balance"]["params"], network?: string) =>
     chainRequest("ethereum", "get-balance", params, network),
 
-  readContract: (params: ChainFamilies["ethereum"]["read-contract"]["params"], network?: string) =>
+  readContract: (params: SyscallFamilies["ethereum"]["read-contract"]["params"], network?: string) =>
     chainRequest("ethereum", "read-contract", params, network),
 
-  callContract: (params: ChainFamilies["ethereum"]["call-contract"]["params"], network?: string) =>
+  callContract: (params: SyscallFamilies["ethereum"]["call-contract"]["params"], network?: string) =>
     chainRequest("ethereum", "call-contract", params, network),
 
-  transfer: (params: ChainFamilies["ethereum"]["transfer"]["params"], network?: string) =>
+  transfer: (params: SyscallFamilies["ethereum"]["transfer"]["params"], network?: string) =>
     chainRequest("ethereum", "transfer", params, network),
 
-  sendTransaction: (params: ChainFamilies["ethereum"]["send-transaction"]["params"], network?: string) =>
+  sendTransaction: (params: SyscallFamilies["ethereum"]["send-transaction"]["params"], network?: string) =>
     chainRequest("ethereum", "send-transaction", params, network),
 
-  deployContract: (params: ChainFamilies["ethereum"]["deploy-contract"]["params"], network?: string) =>
+  deployContract: (params: SyscallFamilies["ethereum"]["deploy-contract"]["params"], network?: string) =>
     chainRequest("ethereum", "deploy-contract", params, network),
 
-  transferToken: (params: ChainFamilies["ethereum"]["transfer-token"]["params"], network?: string) =>
+  transferToken: (params: SyscallFamilies["ethereum"]["transfer-token"]["params"], network?: string) =>
     chainRequest("ethereum", "transfer-token", params, network),
 
-  approveToken: (params: ChainFamilies["ethereum"]["approve-token"]["params"], network?: string) =>
+  approveToken: (params: SyscallFamilies["ethereum"]["approve-token"]["params"], network?: string) =>
     chainRequest("ethereum", "approve-token", params, network),
 
-  transferNft: (params: ChainFamilies["ethereum"]["transfer-nft"]["params"], network?: string) =>
+  transferNft: (params: SyscallFamilies["ethereum"]["transfer-nft"]["params"], network?: string) =>
     chainRequest("ethereum", "transfer-nft", params, network),
 
-  getTransaction: (params: ChainFamilies["ethereum"]["get-transaction"]["params"], network?: string) =>
+  getTransaction: (params: SyscallFamilies["ethereum"]["get-transaction"]["params"], network?: string) =>
     chainRequest("ethereum", "get-transaction", params, network),
 
-  waitForTransaction: (params: ChainFamilies["ethereum"]["wait-for-transaction"]["params"], network?: string) =>
+  waitForTransaction: (params: SyscallFamilies["ethereum"]["wait-for-transaction"]["params"], network?: string) =>
     chainRequest("ethereum", "wait-for-transaction", params, network),
 
-  getEvents: (params: ChainFamilies["ethereum"]["get-events"]["params"], network?: string) =>
+  getEvents: (params: SyscallFamilies["ethereum"]["get-events"]["params"], network?: string) =>
     chainRequest("ethereum", "get-events", params, network),
 
-  resolveName: (params: ChainFamilies["ethereum"]["resolve-name"]["params"], network?: string) =>
+  resolveName: (params: SyscallFamilies["ethereum"]["resolve-name"]["params"], network?: string) =>
     chainRequest("ethereum", "resolve-name", params, network),
 
-  getTokenBalance: (params: ChainFamilies["ethereum"]["get-token-balance"]["params"], network?: string) =>
+  getTokenBalance: (params: SyscallFamilies["ethereum"]["get-token-balance"]["params"], network?: string) =>
     chainRequest("ethereum", "get-token-balance", params, network),
 
-  getTokenAllowance: (params: ChainFamilies["ethereum"]["get-token-allowance"]["params"], network?: string) =>
+  getTokenAllowance: (params: SyscallFamilies["ethereum"]["get-token-allowance"]["params"], network?: string) =>
     chainRequest("ethereum", "get-token-allowance", params, network),
 
-  getNftOwner: (params: ChainFamilies["ethereum"]["get-nft-owner"]["params"], network?: string) =>
+  getNftOwner: (params: SyscallFamilies["ethereum"]["get-nft-owner"]["params"], network?: string) =>
     chainRequest("ethereum", "get-nft-owner", params, network),
 
-  getNftMetadata: (params: ChainFamilies["ethereum"]["get-nft-metadata"]["params"], network?: string) =>
+  getNftMetadata: (params: SyscallFamilies["ethereum"]["get-nft-metadata"]["params"], network?: string) =>
     chainRequest("ethereum", "get-nft-metadata", params, network),
 };
 
 /** Typed Solana operations. */
 export const solana = {
-  getBalance: (params: ChainFamilies["solana"]["get-balance"]["params"], network?: string) =>
+  getBalance: (params: SyscallFamilies["solana"]["get-balance"]["params"], network?: string) =>
     chainRequest("solana", "get-balance", params, network),
 
-  transfer: (params: ChainFamilies["solana"]["transfer"]["params"], network?: string) =>
+  transfer: (params: SyscallFamilies["solana"]["transfer"]["params"], network?: string) =>
     chainRequest("solana", "transfer", params, network),
 
-  transferToken: (params: ChainFamilies["solana"]["transfer-token"]["params"], network?: string) =>
+  transferToken: (params: SyscallFamilies["solana"]["transfer-token"]["params"], network?: string) =>
     chainRequest("solana", "transfer-token", params, network),
 
-  callProgram: (params: ChainFamilies["solana"]["call-program"]["params"], network?: string) =>
+  callProgram: (params: SyscallFamilies["solana"]["call-program"]["params"], network?: string) =>
     chainRequest("solana", "call-program", params, network),
 
-  getAccount: (params: ChainFamilies["solana"]["get-account"]["params"], network?: string) =>
+  getAccount: (params: SyscallFamilies["solana"]["get-account"]["params"], network?: string) =>
     chainRequest("solana", "get-account", params, network),
 
-  getTokenBalance: (params: ChainFamilies["solana"]["get-token-balance"]["params"], network?: string) =>
+  getTokenBalance: (params: SyscallFamilies["solana"]["get-token-balance"]["params"], network?: string) =>
     chainRequest("solana", "get-token-balance", params, network),
 
-  getTokenAccounts: (params: ChainFamilies["solana"]["get-token-accounts"]["params"], network?: string) =>
+  getTokenAccounts: (params: SyscallFamilies["solana"]["get-token-accounts"]["params"], network?: string) =>
     chainRequest("solana", "get-token-accounts", params, network),
 
-  getTransaction: (params: ChainFamilies["solana"]["get-transaction"]["params"], network?: string) =>
+  getTransaction: (params: SyscallFamilies["solana"]["get-transaction"]["params"], network?: string) =>
     chainRequest("solana", "get-transaction", params, network),
 
-  waitForTransaction: (params: ChainFamilies["solana"]["wait-for-transaction"]["params"], network?: string) =>
+  waitForTransaction: (params: SyscallFamilies["solana"]["wait-for-transaction"]["params"], network?: string) =>
     chainRequest("solana", "wait-for-transaction", params, network),
 
   /** Generate an ephemeral keypair for use as an additional signer. */
@@ -291,22 +291,22 @@ export const solana = {
 
 /** Typed Bitcoin operations. */
 export const bitcoin = {
-  getBalance: (params: ChainFamilies["bitcoin"]["get-balance"]["params"], network?: string) =>
+  getBalance: (params: SyscallFamilies["bitcoin"]["get-balance"]["params"], network?: string) =>
     chainRequest("bitcoin", "get-balance", params, network),
 
-  send: (params: ChainFamilies["bitcoin"]["send"]["params"], network?: string) =>
+  send: (params: SyscallFamilies["bitcoin"]["send"]["params"], network?: string) =>
     chainRequest("bitcoin", "send", params, network),
 
-  getUtxos: (params: ChainFamilies["bitcoin"]["get-utxos"]["params"], network?: string) =>
+  getUtxos: (params: SyscallFamilies["bitcoin"]["get-utxos"]["params"], network?: string) =>
     chainRequest("bitcoin", "get-utxos", params, network),
 
-  getTransaction: (params: ChainFamilies["bitcoin"]["get-transaction"]["params"], network?: string) =>
+  getTransaction: (params: SyscallFamilies["bitcoin"]["get-transaction"]["params"], network?: string) =>
     chainRequest("bitcoin", "get-transaction", params, network),
 
-  getFeeRate: (params?: ChainFamilies["bitcoin"]["get-fee-rate"]["params"], network?: string) =>
+  getFeeRate: (params?: SyscallFamilies["bitcoin"]["get-fee-rate"]["params"], network?: string) =>
     chainRequest("bitcoin", "get-fee-rate", params ?? {}, network),
 
-  waitForTransaction: (params: ChainFamilies["bitcoin"]["wait-for-transaction"]["params"], network?: string) =>
+  waitForTransaction: (params: SyscallFamilies["bitcoin"]["wait-for-transaction"]["params"], network?: string) =>
     chainRequest("bitcoin", "wait-for-transaction", params, network),
 };
 

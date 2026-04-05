@@ -78,7 +78,7 @@ export interface EvmGasParams {
 }
 
 // ---------------------------------------------------------------------------
-// EVM — Actions
+// EVM — Syscalls
 // ---------------------------------------------------------------------------
 
 export interface EvmGetBalanceParams {
@@ -234,7 +234,7 @@ export interface SolanaComputeParams {
 }
 
 // ---------------------------------------------------------------------------
-// Solana — Actions
+// Solana — Syscalls
 // ---------------------------------------------------------------------------
 
 export interface SolanaGetBalanceParams {
@@ -322,7 +322,7 @@ export interface BitcoinFeeParams {
 }
 
 // ---------------------------------------------------------------------------
-// Bitcoin — Actions
+// Bitcoin — Syscalls
 // ---------------------------------------------------------------------------
 
 export interface BitcoinGetBalanceParams {
@@ -352,11 +352,11 @@ export interface BitcoinWaitForTransactionParams {
 }
 
 // ---------------------------------------------------------------------------
-// Action map — maps chain + action to param/result types
+// Syscall map — maps chain + action to param/result types
 // ---------------------------------------------------------------------------
 
-/** EVM action parameter types keyed by action name. */
-export interface EvmActions {
+/** EVM syscall parameter types keyed by action name. */
+export interface EvmSyscalls {
   "get-balance": { params: EvmGetBalanceParams; result: EvmGetBalanceResult };
   "read-contract": {
     params: EvmReadContractParams;
@@ -406,8 +406,8 @@ export interface EvmActions {
   };
 }
 
-/** Solana action parameter types keyed by action name. */
-export interface SolanaActions {
+/** Solana syscall parameter types keyed by action name. */
+export interface SolanaSyscalls {
   "get-balance": {
     params: SolanaGetBalanceParams;
     result: Record<string, string>;
@@ -443,8 +443,8 @@ export interface SolanaActions {
   };
 }
 
-/** Bitcoin action parameter types keyed by action name. */
-export interface BitcoinActions {
+/** Bitcoin syscall parameter types keyed by action name. */
+export interface BitcoinSyscalls {
   "get-balance": {
     params: BitcoinGetBalanceParams;
     result: Record<string, string>;
@@ -468,9 +468,9 @@ export interface BitcoinActions {
   };
 }
 
-/** All chain families and their action maps. */
-export interface ChainFamilies {
-  ethereum: EvmActions;
-  solana: SolanaActions;
-  bitcoin: BitcoinActions;
+/** All chain families and their syscall maps. */
+export interface SyscallFamilies {
+  ethereum: EvmSyscalls;
+  solana: SolanaSyscalls;
+  bitcoin: BitcoinSyscalls;
 }
