@@ -4,7 +4,7 @@ export { W3ActionError, handleError } from "./error.js";
 export { request } from "./http.js";
 export { createCommandRouter } from "./command.js";
 export type { CommandHandler } from "./command.js";
-export { bridge, ethereum, solana, bitcoin } from "./bridge.js";
+export { bridge, ethereum, solana, bitcoin, crypto } from "./bridge.js";
 export type * from "./chain-types.js";
 export { writeSummary } from "./summary.js";
 export {

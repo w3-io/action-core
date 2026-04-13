@@ -12,26 +12,19 @@
  *   - $W3_BRIDGE_URL    → TCP URL (macOS Docker Desktop fallback)
  *
  * Usage:
- *   import { bridge, ethereum } from "@w3-io/action-core";
+ *   import { bridge, ethereum, solana, bitcoin, crypto } from "@w3-io/action-core";
  *
  *   // Typed helpers (recommended — autocomplete + type checking):
- *   const receipt = await ethereum.callContract({
- *     contract: "0x...",
- *     method: "deposit(uint256)",
- *     args: ["1000000"],
- *     gasMultiplier: "1.5",
- *   });
+ *   const receipt = await ethereum.callContract({ contract, method, args });
+ *   const { hash } = await crypto.keccak256({ data: "0xdeadbeef" });
+ *   const resolved = await ethereum.resolveName({ name: "vitalik.eth" });
  *
  *   // Generic (full control):
- *   const balance = await bridge.chain("ethereum", "get-balance", {
- *     address: "0x...",
- *   });
- *
- *   const hash = await bridge.crypto("keccak-256", { data: "0xdeadbeef" });
+ *   const balance = await bridge.chain("ethereum", "get-balance", { address: "0x..." });
  */
 
 import { W3ActionError } from "./error.js";
-import type { SyscallFamilies } from "./chain-types.js";
+import type { SyscallFamilies, CryptoSyscalls } from "./chain-types.js";
 
 // ---------------------------------------------------------------------------
 // Transport
@@ -184,15 +177,6 @@ async function chain(
   return chainRequest(chainName, action, params, network);
 }
 
-async function crypto(
-  action: string,
-  params: Record<string, unknown>,
-): Promise<Record<string, unknown>> {
-  return (await bridgeRequest(`/crypto/${action}`, {
-    params,
-  })) as Record<string, unknown>;
-}
-
 // ---------------------------------------------------------------------------
 // Public API — typed chain helpers
 // ---------------------------------------------------------------------------
@@ -237,6 +221,10 @@ export const ethereum = {
 
   resolveName: (params: SyscallFamilies["ethereum"]["resolve-name"]["params"], network?: string) =>
     chainRequest("ethereum", "resolve-name", params, network),
+
+  /** Reverse-resolve an address to an ENS name. Includes forward verification to prevent spoofing. */
+  reverseResolveName: (params: SyscallFamilies["ethereum"]["reverse-resolve-name"]["params"], network?: string) =>
+    chainRequest("ethereum", "reverse-resolve-name", params, network),
 
   getTokenBalance: (params: SyscallFamilies["ethereum"]["get-token-balance"]["params"], network?: string) =>
     chainRequest("ethereum", "get-token-balance", params, network),
@@ -311,26 +299,91 @@ export const bitcoin = {
 };
 
 // ---------------------------------------------------------------------------
+// Public API — typed crypto helpers
+// ---------------------------------------------------------------------------
+
+function cryptoRequest<K extends keyof CryptoSyscalls>(
+  action: K,
+  params: CryptoSyscalls[K]["params"],
+): Promise<CryptoSyscalls[K]["result"]> {
+  return bridgeRequest(`/crypto/${action}`, { params }) as Promise<CryptoSyscalls[K]["result"]>;
+}
+
+/**
+ * Typed crypto operations.
+ *
+ *   import { crypto } from "@w3-io/action-core";
+ *
+ *   const { hash } = await crypto.keccak256({ data: "0xdeadbeef" });
+ *   const { code } = await crypto.totp({ secret: "0x..." });
+ *   const { token } = await crypto.jwtSign({ claims: '{"sub":"1"}', key: "secret" });
+ */
+export const crypto = {
+  /** Keccak-256 hash. Returns `{ hash: "0x..." }`. */
+  keccak256: (params: CryptoSyscalls["keccak256"]["params"]) =>
+    cryptoRequest("keccak256", params),
+
+  /** AES-256-GCM encrypt. Returns `{ ciphertext: "0x..." }`. */
+  aesEncrypt: (params: CryptoSyscalls["aes-encrypt"]["params"]) =>
+    cryptoRequest("aes-encrypt", params),
+
+  /** AES-256-GCM decrypt. Returns `{ plaintext: "0x..." }`. */
+  aesDecrypt: (params: CryptoSyscalls["aes-decrypt"]["params"]) =>
+    cryptoRequest("aes-decrypt", params),
+
+  /** Ed25519 sign. Returns `{ signature: "0x..." }`. */
+  ed25519Sign: (params: CryptoSyscalls["ed25519-sign"]["params"]) =>
+    cryptoRequest("ed25519-sign", params),
+
+  /** Ed25519 verify. Returns `{ valid: boolean }`. */
+  ed25519Verify: async (params: CryptoSyscalls["ed25519-verify"]["params"]) => {
+    const raw = await cryptoRequest("ed25519-verify", params);
+    return { ...raw, valid: String(raw.valid) === "true" };
+  },
+
+  /** Ed25519 public key from private key. Returns `{ publicKey: "0x..." }`. */
+  ed25519PublicKey: (params: CryptoSyscalls["ed25519-public-key"]["params"]) =>
+    cryptoRequest("ed25519-public-key", params),
+
+  /** HKDF-SHA256 key derivation. Returns `{ key: "0x..." }`. */
+  hkdf: (params: CryptoSyscalls["hkdf"]["params"]) =>
+    cryptoRequest("hkdf", params),
+
+  /** Create a signed JWT. Returns `{ token: "eyJ..." }`. */
+  jwtSign: (params: CryptoSyscalls["jwt-sign"]["params"]) =>
+    cryptoRequest("jwt-sign", params),
+
+  /** Verify and decode a JWT. Returns `{ valid: boolean, claims: string }`. */
+  jwtVerify: async (params: CryptoSyscalls["jwt-verify"]["params"]) => {
+    const raw = await cryptoRequest("jwt-verify", params);
+    return { ...raw, valid: String(raw.valid) === "true" };
+  },
+
+  /** Generate a TOTP code. Returns `{ code: "123456" }`. */
+  totp: (params: CryptoSyscalls["totp"]["params"]) =>
+    cryptoRequest("totp", params),
+};
+
+// ---------------------------------------------------------------------------
 // Default export
 // ---------------------------------------------------------------------------
 
 /**
  * The bridge client.
  *
- *   import { bridge, ethereum, solana, bitcoin } from "@w3-io/action-core";
+ *   import { bridge, ethereum, solana, bitcoin, crypto } from "@w3-io/action-core";
  *
  *   // Typed (recommended):
  *   const receipt = await ethereum.callContract({ contract, method, args });
  *   const sig = await solana.callProgram({ programId, accounts, data });
  *   const tx = await bitcoin.send({ to, amount });
+ *   const { hash } = await crypto.keccak256({ data: "0x..." });
+ *   const { address } = await ethereum.resolveName({ name: "vitalik.eth" });
  *
  *   // Generic:
  *   const bal = await bridge.chain("ethereum", "get-balance", { address });
- *   const hash = await bridge.crypto("keccak-256", { data: "0x..." });
- *   const ok = await bridge.health();
  */
 export const bridge = {
   health,
   chain,
-  crypto,
 };
