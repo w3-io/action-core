@@ -155,6 +155,10 @@ export interface EvmResolveNameParams {
     name: string;
     rpcUrl?: string;
 }
+export interface EvmReverseResolveNameParams {
+    address: string;
+    rpcUrl?: string;
+}
 export interface EvmGetTokenBalanceParams {
     token: string;
     address: string;
@@ -167,6 +171,11 @@ export interface EvmGetTokenAllowanceParams {
     rpcUrl?: string;
 }
 export interface EvmGetNftOwnerParams {
+    token: string;
+    tokenId: string;
+    rpcUrl?: string;
+}
+export interface EvmGetNftMetadataParams {
     token: string;
     tokenId: string;
     rpcUrl?: string;
@@ -274,8 +283,8 @@ export interface BitcoinWaitForTransactionParams {
     txid: string;
     confirmations?: string;
 }
-/** EVM action parameter types keyed by action name. */
-export interface EvmActions {
+/** EVM syscall parameter types keyed by action name. */
+export interface EvmSyscalls {
     "get-balance": {
         params: EvmGetBalanceParams;
         result: EvmGetBalanceResult;
@@ -328,6 +337,10 @@ export interface EvmActions {
         params: EvmResolveNameParams;
         result: Record<string, string>;
     };
+    "reverse-resolve-name": {
+        params: EvmReverseResolveNameParams;
+        result: Record<string, string>;
+    };
     "get-token-balance": {
         params: EvmGetTokenBalanceParams;
         result: Record<string, string>;
@@ -340,9 +353,13 @@ export interface EvmActions {
         params: EvmGetNftOwnerParams;
         result: Record<string, string>;
     };
+    "get-nft-metadata": {
+        params: EvmGetNftMetadataParams;
+        result: Record<string, string>;
+    };
 }
-/** Solana action parameter types keyed by action name. */
-export interface SolanaActions {
+/** Solana syscall parameter types keyed by action name. */
+export interface SolanaSyscalls {
     "get-balance": {
         params: SolanaGetBalanceParams;
         result: Record<string, string>;
@@ -380,8 +397,8 @@ export interface SolanaActions {
         result: Record<string, string>;
     };
 }
-/** Bitcoin action parameter types keyed by action name. */
-export interface BitcoinActions {
+/** Bitcoin syscall parameter types keyed by action name. */
+export interface BitcoinSyscalls {
     "get-balance": {
         params: BitcoinGetBalanceParams;
         result: Record<string, string>;
@@ -407,9 +424,139 @@ export interface BitcoinActions {
         result: Record<string, string>;
     };
 }
-/** All chain families and their action maps. */
-export interface ChainFamilies {
-    ethereum: EvmActions;
-    solana: SolanaActions;
-    bitcoin: BitcoinActions;
+/** All chain families and their syscall maps. */
+export interface SyscallFamilies {
+    ethereum: EvmSyscalls;
+    solana: SolanaSyscalls;
+    bitcoin: BitcoinSyscalls;
+}
+export interface CryptoKeccak256Params {
+    /** Hex-encoded data to hash (0x prefix optional). */
+    data: string;
+}
+export interface CryptoAesEncryptParams {
+    /** Hex-encoded 256-bit key (32 bytes). */
+    key: string;
+    /** Hex-encoded plaintext. */
+    data: string;
+}
+export interface CryptoAesDecryptParams {
+    /** Hex-encoded 256-bit key (32 bytes). */
+    key: string;
+    /** Hex-encoded ciphertext (nonce + ciphertext + tag from aes-encrypt). */
+    data: string;
+}
+export interface CryptoEd25519SignParams {
+    /** Hex-encoded Ed25519 private key. */
+    privateKey: string;
+    /** Hex-encoded message to sign. */
+    message: string;
+}
+export interface CryptoEd25519VerifyParams {
+    /** Hex-encoded Ed25519 public key. */
+    publicKey: string;
+    /** Hex-encoded message. */
+    message: string;
+    /** Hex-encoded signature. */
+    signature: string;
+}
+export interface CryptoEd25519PublicKeyParams {
+    /** Hex-encoded Ed25519 private key. */
+    privateKey: string;
+}
+export interface CryptoHkdfParams {
+    /** Hex-encoded input keying material. */
+    ikm: string;
+    /** Hex-encoded salt (optional, defaults to empty). */
+    salt?: string;
+    /** Hex-encoded context info (optional, defaults to empty). */
+    info?: string;
+    /** Output key length in bytes (default 32, max 8160). */
+    length?: number;
+}
+export interface CryptoJwtSignParams {
+    /** JSON string of JWT claims. */
+    claims: string;
+    /** Signing key (HMAC secret or Ed25519 private key). */
+    key: string;
+    /** Algorithm: "HS256" (default) or "EdDSA". */
+    algorithm?: "HS256" | "EdDSA";
+}
+export interface CryptoJwtVerifyParams {
+    /** JWT token string. */
+    token: string;
+    /** Verification key (HMAC secret or Ed25519 public key). */
+    key: string;
+    /** Algorithm: "HS256" (default) or "EdDSA". */
+    algorithm?: "HS256" | "EdDSA";
+}
+export interface CryptoTotpParams {
+    /** Hex-encoded TOTP secret. */
+    secret: string;
+    /** Unix timestamp (defaults to current time). */
+    time?: number;
+}
+/** Crypto operation parameter types keyed by operation name. */
+export interface CryptoSyscalls {
+    "keccak256": {
+        params: CryptoKeccak256Params;
+        result: {
+            hash: string;
+        };
+    };
+    "aes-encrypt": {
+        params: CryptoAesEncryptParams;
+        result: {
+            ciphertext: string;
+        };
+    };
+    "aes-decrypt": {
+        params: CryptoAesDecryptParams;
+        result: {
+            plaintext: string;
+        };
+    };
+    "ed25519-sign": {
+        params: CryptoEd25519SignParams;
+        result: {
+            signature: string;
+        };
+    };
+    "ed25519-verify": {
+        params: CryptoEd25519VerifyParams;
+        result: {
+            valid: boolean;
+        };
+    };
+    "ed25519-public-key": {
+        params: CryptoEd25519PublicKeyParams;
+        result: {
+            publicKey: string;
+        };
+    };
+    "hkdf": {
+        params: CryptoHkdfParams;
+        result: {
+            key: string;
+        };
+    };
+    "jwt-sign": {
+        params: CryptoJwtSignParams;
+        result: {
+            token: string;
+        };
+    };
+    "jwt-verify": {
+        params: CryptoJwtVerifyParams;
+        result: {
+            valid: boolean;
+            claims: string;
+        };
+    };
+    "totp": {
+        params: CryptoTotpParams;
+        result: {
+            code: string;
+        };
+    };
 }
