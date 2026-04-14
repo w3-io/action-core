@@ -180,6 +180,17 @@ export interface EvmGetNftMetadataParams {
     tokenId: string;
     rpcUrl?: string;
 }
+export interface EvmSignTypedDataParams {
+    domain: Record<string, unknown>;
+    types: Record<string, unknown>;
+    primaryType: string;
+    message: Record<string, unknown>;
+}
+export interface EvmSignMessageParams {
+    message: string;
+}
+export interface EvmGetSignerAddressParams {
+}
 /** Compute budget parameters available on Solana write actions. */
 export interface SolanaComputeParams {
     /**
@@ -333,6 +344,10 @@ export interface EvmSyscalls {
         params: EvmGetEventsParams;
         result: Record<string, string>;
     };
+    "get-signer-address": {
+        params: EvmGetSignerAddressParams;
+        result: Record<string, string>;
+    };
     "resolve-name": {
         params: EvmResolveNameParams;
         result: Record<string, string>;
@@ -355,6 +370,14 @@ export interface EvmSyscalls {
     };
     "get-nft-metadata": {
         params: EvmGetNftMetadataParams;
+        result: Record<string, string>;
+    };
+    "sign-message": {
+        params: EvmSignMessageParams;
+        result: Record<string, string>;
+    };
+    "sign-typed-data": {
+        params: EvmSignTypedDataParams;
         result: Record<string, string>;
     };
 }

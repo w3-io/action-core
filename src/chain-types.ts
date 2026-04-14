@@ -219,6 +219,19 @@ export interface EvmGetNftMetadataParams {
   rpcUrl?: string;
 }
 
+export interface EvmSignTypedDataParams {
+  domain: Record<string, unknown>;
+  types: Record<string, unknown>;
+  primaryType: string;
+  message: Record<string, unknown>;
+}
+
+export interface EvmSignMessageParams {
+  message: string;
+}
+
+export interface EvmGetSignerAddressParams {}
+
 // ---------------------------------------------------------------------------
 // Solana — Compute Budget
 // ---------------------------------------------------------------------------
@@ -389,6 +402,7 @@ export interface EvmSyscalls {
     params: EvmGetEventsParams;
     result: Record<string, string>;
   };
+  "get-signer-address": { params: EvmGetSignerAddressParams; result: Record<string, string> };
   "resolve-name": {
     params: EvmResolveNameParams;
     result: Record<string, string>;
@@ -413,6 +427,8 @@ export interface EvmSyscalls {
     params: EvmGetNftMetadataParams;
     result: Record<string, string>;
   };
+  "sign-message": { params: EvmSignMessageParams; result: Record<string, string> };
+  "sign-typed-data": { params: EvmSignTypedDataParams; result: Record<string, string> };
 }
 
 /** Solana syscall parameter types keyed by action name. */

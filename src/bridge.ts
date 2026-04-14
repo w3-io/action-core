@@ -219,12 +219,21 @@ export const ethereum = {
   getEvents: (params: SyscallFamilies["ethereum"]["get-events"]["params"], network?: string) =>
     chainRequest("ethereum", "get-events", params, network),
 
+  getSignerAddress: (params: SyscallFamilies["ethereum"]["get-signer-address"]["params"], network?: string) =>
+    chainRequest("ethereum", "get-signer-address", params, network),
+
   resolveName: (params: SyscallFamilies["ethereum"]["resolve-name"]["params"], network?: string) =>
     chainRequest("ethereum", "resolve-name", params, network),
 
   /** Reverse-resolve an address to an ENS name. Includes forward verification to prevent spoofing. */
   reverseResolveName: (params: SyscallFamilies["ethereum"]["reverse-resolve-name"]["params"], network?: string) =>
     chainRequest("ethereum", "reverse-resolve-name", params, network),
+
+  signMessage: (params: SyscallFamilies["ethereum"]["sign-message"]["params"], network?: string) =>
+    chainRequest("ethereum", "sign-message", params, network),
+
+  signTypedData: (params: SyscallFamilies["ethereum"]["sign-typed-data"]["params"], network?: string) =>
+    chainRequest("ethereum", "sign-typed-data", params, network),
 
   getTokenBalance: (params: SyscallFamilies["ethereum"]["get-token-balance"]["params"], network?: string) =>
     chainRequest("ethereum", "get-token-balance", params, network),
