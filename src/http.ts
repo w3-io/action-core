@@ -23,7 +23,7 @@ export async function request<T = unknown>(
     const response = await fetch(url, {
       method,
       headers: {
-        ...(body ? { "Content-Type": "application/json" } : {}),
+        "Content-Type": "application/json",
         ...headers,
       },
       body: body ? JSON.stringify(body) : undefined,
