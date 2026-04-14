@@ -152,9 +152,12 @@ export const ethereum = {
     getTransaction: (params, network) => chainRequest("ethereum", "get-transaction", params, network),
     waitForTransaction: (params, network) => chainRequest("ethereum", "wait-for-transaction", params, network),
     getEvents: (params, network) => chainRequest("ethereum", "get-events", params, network),
+    getSignerAddress: (params, network) => chainRequest("ethereum", "get-signer-address", params, network),
     resolveName: (params, network) => chainRequest("ethereum", "resolve-name", params, network),
     /** Reverse-resolve an address to an ENS name. Includes forward verification to prevent spoofing. */
     reverseResolveName: (params, network) => chainRequest("ethereum", "reverse-resolve-name", params, network),
+    signMessage: (params, network) => chainRequest("ethereum", "sign-message", params, network),
+    signTypedData: (params, network) => chainRequest("ethereum", "sign-typed-data", params, network),
     getTokenBalance: (params, network) => chainRequest("ethereum", "get-token-balance", params, network),
     getTokenAllowance: (params, network) => chainRequest("ethereum", "get-token-allowance", params, network),
     getNftOwner: (params, network) => chainRequest("ethereum", "get-nft-owner", params, network),

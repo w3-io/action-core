@@ -45,9 +45,12 @@ export declare const ethereum: {
     getTransaction: (params: SyscallFamilies["ethereum"]["get-transaction"]["params"], network?: string) => Promise<Record<string, unknown>>;
     waitForTransaction: (params: SyscallFamilies["ethereum"]["wait-for-transaction"]["params"], network?: string) => Promise<Record<string, unknown>>;
     getEvents: (params: SyscallFamilies["ethereum"]["get-events"]["params"], network?: string) => Promise<Record<string, unknown>>;
+    getSignerAddress: (params: SyscallFamilies["ethereum"]["get-signer-address"]["params"], network?: string) => Promise<Record<string, unknown>>;
     resolveName: (params: SyscallFamilies["ethereum"]["resolve-name"]["params"], network?: string) => Promise<Record<string, unknown>>;
     /** Reverse-resolve an address to an ENS name. Includes forward verification to prevent spoofing. */
     reverseResolveName: (params: SyscallFamilies["ethereum"]["reverse-resolve-name"]["params"], network?: string) => Promise<Record<string, unknown>>;
+    signMessage: (params: SyscallFamilies["ethereum"]["sign-message"]["params"], network?: string) => Promise<Record<string, unknown>>;
+    signTypedData: (params: SyscallFamilies["ethereum"]["sign-typed-data"]["params"], network?: string) => Promise<Record<string, unknown>>;
     getTokenBalance: (params: SyscallFamilies["ethereum"]["get-token-balance"]["params"], network?: string) => Promise<Record<string, unknown>>;
     getTokenAllowance: (params: SyscallFamilies["ethereum"]["get-token-allowance"]["params"], network?: string) => Promise<Record<string, unknown>>;
     getNftOwner: (params: SyscallFamilies["ethereum"]["get-nft-owner"]["params"], network?: string) => Promise<Record<string, unknown>>;
