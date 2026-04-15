@@ -18,8 +18,8 @@ export type CommandHandler = () => Promise<void>;
  */
 export function createCommandRouter(
   commands: Record<string, CommandHandler>,
-): () => void {
-  return () => {
+): () => Promise<void> {
+  return async () => {
     const command = core.getInput("command", { required: true });
     const handler = commands[command];
     if (!handler) {
@@ -29,6 +29,6 @@ export function createCommandRouter(
       );
       return;
     }
-    handler().catch(handleError);
+    await handler().catch(handleError);
   };
 }

@@ -12,4 +12,4 @@ export type CommandHandler = () => Promise<void>;
  *   });
  *   router();  // reads `command` input, dispatches, handles errors
  */
-export declare function createCommandRouter(commands: Record<string, CommandHandler>): () => void;
+export declare function createCommandRouter(commands: Record<string, CommandHandler>): () => Promise<void>;

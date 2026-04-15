@@ -11,7 +11,7 @@ import { handleError } from "./error.js";
  *   router();  // reads `command` input, dispatches, handles errors
  */
 export function createCommandRouter(commands) {
-    return () => {
+    return async () => {
         const command = core.getInput("command", { required: true });
         const handler = commands[command];
         if (!handler) {
@@ -19,6 +19,6 @@ export function createCommandRouter(commands) {
             core.setFailed(`Unknown command: '${command}'. Available: ${available}`);
             return;
         }
-        handler().catch(handleError);
+        await handler().catch(handleError);
     };
 }
