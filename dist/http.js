@@ -24,7 +24,15 @@ export async function request(url, options = {}) {
                 statusCode: response.status,
             });
         }
-        return (await response.json());
+        const text = await response.text();
+        if (!text)
+            return { status: response.status, raw: "" };
+        try {
+            return JSON.parse(text);
+        }
+        catch {
+            return { status: response.status, raw: text };
+        }
     }
     finally {
         clearTimeout(timer);

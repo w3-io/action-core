@@ -37,7 +37,13 @@ export async function request<T = unknown>(
       });
     }
 
-    return (await response.json()) as T;
+    const text = await response.text();
+    if (!text) return { status: response.status, raw: "" } as T;
+    try {
+      return JSON.parse(text) as T;
+    } catch {
+      return { status: response.status, raw: text } as T;
+    }
   } finally {
     clearTimeout(timer);
   }
