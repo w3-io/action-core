@@ -8,6 +8,18 @@ export { bridge, ethereum, solana, bitcoin, crypto } from "./bridge.js";
 export type * from "./chain-types.js";
 export { writeSummary } from "./summary.js";
 export {
+  buildSiweMessage,
+  randomNonce,
+  createX402Signer,
+  createX402Fetch,
+} from "./x402.js";
+export type {
+  SiweMessageParams,
+  X402SignerOptions,
+  X402Signer,
+  X402FetchOptions,
+} from "./x402.js";
+export {
   mockAction,
   getOutput,
   expectOutput,
