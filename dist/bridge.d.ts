@@ -71,6 +71,25 @@ export declare const solana: {
     generateKeypair: () => Promise<Record<string, unknown>>;
     /** Get the payer's public key (no secret exposed). */
     payerAddress: () => Promise<Record<string, unknown>>;
+    /** Derive a Program Derived Address from seeds and a program ID. */
+    findPda: (params: {
+        seeds: string[];
+        programId: string;
+    }) => Promise<Record<string, unknown>>;
+    /** Decode a base58 Solana address to hex bytes. */
+    decodeAddress: (params: {
+        address: string;
+    }) => Promise<Record<string, unknown>>;
+    /** Encode hex bytes to a base58 Solana address. */
+    encodeAddress: (params: {
+        bytes: string;
+    }) => Promise<Record<string, unknown>>;
+    /** Derive the Associated Token Account address for an owner and mint. */
+    getAta: (params: {
+        owner: string;
+        mint: string;
+        tokenProgramId?: string;
+    }) => Promise<Record<string, unknown>>;
 };
 /** Typed Bitcoin operations. */
 export declare const bitcoin: {

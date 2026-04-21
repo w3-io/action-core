@@ -178,6 +178,14 @@ export const solana = {
     generateKeypair: () => bridgeRequest("/solana/generate-keypair", {}),
     /** Get the payer's public key (no secret exposed). */
     payerAddress: () => bridgeRequest("/solana/payer-address"),
+    /** Derive a Program Derived Address from seeds and a program ID. */
+    findPda: (params) => bridgeRequest("/solana/find-pda", params),
+    /** Decode a base58 Solana address to hex bytes. */
+    decodeAddress: (params) => bridgeRequest("/solana/decode-address", params),
+    /** Encode hex bytes to a base58 Solana address. */
+    encodeAddress: (params) => bridgeRequest("/solana/encode-address", params),
+    /** Derive the Associated Token Account address for an owner and mint. */
+    getAta: (params) => bridgeRequest("/solana/get-ata", params),
 };
 /** Typed Bitcoin operations. */
 export const bitcoin = {
